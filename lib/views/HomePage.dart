@@ -6,6 +6,7 @@ class HomePage extends StatelessWidget {
   final title;
   final TextEditingController ip = TextEditingController();
   final TextEditingController port = TextEditingController(text: "22023");
+  final GlobalKey<FormState> _impostorKey = GlobalKey();
 
   HomePage({Key key, this.title}) : super(key: key);
   @override
@@ -13,125 +14,120 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(18.0, 0, 18.0, 0),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "IMPOSTOR",
-                  style: GoogleFonts.lobster(
-                    textStyle: TextStyle(fontSize: 40),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "AMONG US PRIVATE SERVER",
-                  style: GoogleFonts.lobster(
-                    textStyle: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "Connect to a Server",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Row(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: TextFormField(
-                    controller: ip,
-                    decoration: InputDecoration(
-                      // fillColor: Color(0xFFF5F5FF),
-                      // filled: true,
-                      contentPadding: EdgeInsets.all(10),
-                      hintText: 'Server Ip',
-                      hintStyle: TextStyle(
-                        // color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: Colors.blue,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(color: Colors.blue)),
+        child: Form(
+          key: _impostorKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "IMPOSTOR",
+                    style: GoogleFonts.lobster(
+                      textStyle: TextStyle(fontSize: 40),
                     ),
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Server Ip is Required';
-                      }
-
-                      if (!RegExp(
-                              r"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
-                          .hasMatch(value)) {
-                        return 'Please enter a valid ip address';
-                      }
-
-                      return null;
-                    },
                   ),
-                ),
-                SizedBox(
-                  width: 10.0,
-                ),
-                Expanded(
-                  child: TextFormField(
-                    controller: port,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Port number is Required';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      // fillColor: Color(0xFFF5F5FF),
-                      // filled: true,
-                      contentPadding: EdgeInsets.all(10),
-                      hintText: 'Port number',
-                      hintStyle: TextStyle(
-                        // color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: Colors.blue,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(color: Colors.blue)),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "AMONG US PRIVATE SERVER",
+                    style: GoogleFonts.lobster(
+                      textStyle: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Connect to a Server",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              TextFormField(
+                controller: ip,
+                decoration: InputDecoration(
+                  // fillColor: Color(0xFFF5F5FF),
+                  // filled: true,
+                  contentPadding: EdgeInsets.all(10),
+                  hintText: 'Server Ip',
+                  hintStyle: TextStyle(
+                    // color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
                     ),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: 25.0,),
-            CustomButton(title: "Download Server File", onPress: ()=>print("Tapped!"))
-          ],
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Server Ip is Required';
+                  }
+
+                  if (!RegExp(
+                          r"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+                      .hasMatch(value)) {
+                    return 'Please enter a valid ip address';
+                  }
+
+                  return null;
+                },
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: port,
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Port number is Required';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  // fillColor: Color(0xFFF5F5FF),
+                  // filled: true,
+                  contentPadding: EdgeInsets.all(10),
+                  hintText: 'Port number',
+                  hintStyle: TextStyle(
+                    // color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 25.0,
+              ),
+              CustomButton(
+                  title: "Download Server File",
+                  onPress: () {
+                    if (_impostorKey.currentState.validate()) {
+                      print("Correct details!");
+                    }
+                  })
+            ],
+          ),
         ),
       ),
     );

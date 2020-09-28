@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:impostor/utils/CustomButton.dart';
+import 'package:impostor/utils/ServerFile.dart';
 
 class HomePage extends StatelessWidget {
+  // constants for among us
+  static String regionName = "Impostor";
+  static int serverPortNo = 22023;
+
   final title;
   final TextEditingController ip = TextEditingController();
-  final TextEditingController port = TextEditingController(text: "22023");
+  final TextEditingController port =
+      TextEditingController(text: serverPortNo.toString());
   final GlobalKey<FormState> _impostorKey = GlobalKey();
 
   HomePage({Key key, this.title}) : super(key: key);
@@ -120,10 +126,63 @@ class HomePage extends StatelessWidget {
                 height: 25.0,
               ),
               CustomButton(
-                  title: "Download Server File",
+                  title: "Generate Server File",
                   onPress: () {
                     if (_impostorKey.currentState.validate()) {
+                      var serverIp = ip.text.trim();
+                      var serverPort = port.text.trim();
+                      List<int> serverFileBytes = generateServerFile(
+                          regionName, serverIp, int.tryParse(serverPort));
                       print("Correct details!");
+                      showDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (_) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25.0),
+                                ),
+                              ),
+                              child: AlertDialog(
+                                title: Center(
+                                  child: Text(
+                                    "Are you sure you want to generate the server file? This would overwrite the existing one.",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                content: Container(
+                                  child: Icon(
+                                    Icons.warning,
+                                    size: 150,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  InkWell(
+                                    onTap: () {
+                                      writeConfig(serverFileBytes);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "YES",
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
                     }
                   })
             ],
